@@ -1,0 +1,49 @@
+{
+  "dataset": {
+    "dataset_path": "data/books",
+    "relevance_level": 1,
+    "train_batch_size": 16,
+    "eval_batch_size": 7,
+    "case_sensitive": false,
+    "normalize_negation": true,
+    "user_chunk_size": 256,
+    "item_chunk_size": 128,
+    "training_neg_samples": 2,
+    "validation_neg_sampling_strategy": "f:validation_neg_standard_100",
+    "test_neg_sampling_strategy": "f:test_neg_standard_100",
+    "dataloader_num_workers": 8,
+    "user_text_file_name": "interaction.summary-interaction.reviewText_idf_sentence_csTrue_nnTrue",
+    "item_text_file_name": "item.title-item.category-item.description_csTrue_nnTrue",
+    "distil_path": "output/books/cross/distil_scores.json"
+  },
+  "trainer": {
+    "optimizer": "AdamW",
+    "lr": 4e-6,
+    "wd": 1e-08,
+    "epochs": 200,
+    "loss_fn": "DISTIL",
+    "subloss_fn": "pairwiseMSE",
+    "margin": 2,
+    "valid_metric": "valid_ndcg_cut_10",
+    "early_stopping_patience": 20,
+    "save_best_train": false,
+    "save_every_epoch": false,
+    "do_validation": true,
+    "sigmoid_output": true,
+    "enable_autocast": true,
+    "u_lambda_flops": 5e-3,
+    "i_lambda_flops": 5e-3,
+    "T": 50000
+  },
+  "model": {
+    "name": "STAR",
+    "pretrained_model": "naver/splade-cocondenser-ensembledistil"
+  },
+  "experiment_name": {
+    "experiment_name": "star_distil"
+  },
+  "experiment_root": "output/books",
+  "params_in_exp_dir": [
+    "experiment_name.experiment_name"
+  ]
+}
